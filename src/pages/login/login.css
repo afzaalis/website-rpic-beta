@@ -1,0 +1,130 @@
+.login-outsideContainer {
+  background-color: #15162F;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 40px; 
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.login-container {
+  justify-content: center;
+  margin: auto;
+  padding: 40px; /* Padding untuk ukuran medium */
+  border-radius: 8px;
+  max-width: 450px; /* Ukuran maksimum kontainer */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-container h1 {
+  margin-bottom: 24px;
+  color: white;
+  font-size: 28px; /* Ukuran font judul medium */
+  margin-bottom: 48px;
+}
+
+.login-container label {
+  margin-bottom: 8px; /* Jarak margin untuk label */
+  color: white;
+}
+
+.login-container input {
+  padding: 12px; /* Padding input medium */
+  margin-bottom: 16px; /* Margin medium */
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Radius medium */
+  font-size: 16px; /* Ukuran font input */
+  color: black;
+}
+
+.login-container button {
+  background-color: #640EF1;
+  color: white;
+  padding: 14px; /* Padding medium */
+  border-radius: 8px; /* Radius medium */
+  border: none;
+  cursor: pointer;
+  margin-bottom: 24px; /* Margin medium */
+  width: 70%;
+  box-sizing: border-box;
+}
+
+.login-gambar img {
+  max-width: 400px; /* Ukuran maksimum gambar medium */
+  height: auto; /* Biarkan tinggi menyesuaikan otomatis */
+  object-fit: cover;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.line-or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.line-or::before,
+.line-or::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #CFDFE2;
+}
+
+.line-or::before {
+  margin-right: 10px;
+}
+
+.line-or::after {
+  margin-left: 10px;
+}
+
+.line-or span {
+  padding: 0 10px;
+  font-size: 16px;
+  color: white;
+}
+
+
+
+.form-group {
+  margin-bottom: 16px; 
+}
+
+.form-group label {
+  display: block; 
+  margin-bottom: 8px; 
+  color: white;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  .login-outsideContainer {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+
+  .login-container {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .login-gambar img {
+    width: 100%; 
+    height: auto; 
+  }
+}
+
+@media (max-width: 480px) {
+  .login-gambar img {
+    display: none;
+  }
+}
