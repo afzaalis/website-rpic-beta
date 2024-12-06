@@ -1,0 +1,271 @@
+body {
+    background-color: #05051E;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard {
+    max-width: 1728px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+} 
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #05051E;
+}
+
+.navbar-container, .footer-container {
+    max-width: 1728px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-item {
+    margin-right: 0;
+}
+
+.navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+    color: #98ADF6;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-left: 50px;
+}
+
+.signup-button,
+.login-button {
+    width: 120px;
+    height: 40px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.signup-button {
+    background-color: #640EF1;
+    color: white;
+}
+
+.login-button {
+    background-color: #05051E;
+    color: white;
+    border: 1px solid #640EF1;
+}
+
+.signup-button:hover,
+.login-button:hover {
+    background-color: #5869ff;
+}
+
+.pengantar, .intro, .content, .promotions, .events, .testimonials, .partners, .footer-container {
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 80%;
+    text-align: center;
+}
+
+.pengantar h1, .intro h1, .content h1, .promotions h1, .events h1, .testimonials h1, .partners h1 {
+    font-size: 36px;
+    background: linear-gradient(90deg, #4066EF 0%, #98ADF6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.intro-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 50%;
+}
+
+.intro-image img {
+    width: 60%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.5s ease;
+}
+
+.intro-image img:hover {
+    transform: scale(1.1);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+    margin-top: 20px;
+}
+
+.grid-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.grid-container img:hover {
+    transform: scale(1.1);
+}
+
+.promotion-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.promotion-card {
+    background: #333;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    color: white;
+}
+
+.promotion-card h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.promotion-card p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.event-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.event-card {
+    background: #333;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    color: white;
+}
+
+.event-card h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.event-card p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.testimonial-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.testimonial {
+    background: #333;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    color: white;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.partner-logos {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.partner-logos img {
+    max-width: 120px;
+    height: auto;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.partner-logos img:hover {
+    filter: grayscale(0%);
+}
+
+.footer-container {
+    background-color: #640EF1;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.information p {
+    margin: 0;
+    color: white;
+    width: 100%;
+}
+
+.about ul {
+    list-style-type: none;
+    padding: 0;
+    color: white;
+}
+
+.about li {
+    padding: 5px 0;
+}

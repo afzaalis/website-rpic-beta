@@ -1,0 +1,246 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; 
+  }
+  
+  /* Dashboard */
+  .dashboard {
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #05051E; /* Warna navbar yang gelap */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: menambahkan bayangan pada navbar */
+  }
+  
+  .navbar-container {
+    max-width: 1728px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .navbar-logo {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar-item {
+    margin-right: 0;
+  }
+  
+  .navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 400;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-link:hover {
+    color: #98ADF6; /* Warna biru untuk hover */
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 15px;
+    margin-left: 50px;
+  }
+  
+  .signup-button,
+  .login-button {
+    width: 120px;
+    height: 40px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .signup-button {
+    background-color: #640EF1; /* Warna ungu untuk tombol Sign Up */
+    color: white;
+  }
+  
+  .login-button {
+    background-color: #05051E; /* Warna gelap untuk tombol Login */
+    color: white;
+    border: 1px solid #640EF1; /* Border ungu untuk tombol Login */
+  }
+  
+  .signup-button:hover,
+  .login-button:hover {
+    background-color: #5869ff; /* Warna biru muda saat hover */
+  }
+  
+  /* Section Styling */
+  section {
+    padding: 40px 20px;
+    max-width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    overflow: hidden; /* Menghindari overflow pada bagian section */
+  }
+  
+  /* Pengantar Styling */
+  .pengantar {
+    padding: 60px 20px;
+    background-color: #05051E; /* Background navbar */
+    color: white;
+  }
+  
+  .pengantar h1 {
+    font-size: 48px;
+    color: #98ADF6; /* Biru terang untuk teks */
+  }
+  
+  /* Intro Section */
+  .intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .intro-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 50%;
+  }
+  
+  .intro-text h1 {
+    font-size: 36px;
+    color: #98ADF6;
+  }
+  
+  .intro-text h2 {
+    font-size: 24px;
+    color: #98ADF6;
+  }
+  
+  .intro-image img {
+    width: 60%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.5s ease;
+  }
+  
+  .intro-image img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Facilities Grid */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-top: 20px;
+  }
+  
+  .grid-container img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .grid-container img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Promotions Section */
+  .promotions {
+    padding: 60px 20px;
+  }
+  
+  .promotion-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+  }
+  
+  .promotion-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px;
+  }
+  
+  .promotion-card h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .promotion-card p {
+    font-size: 16px;
+  }
+  
+  /* Events Section */
+  .events {
+    padding: 60px 20px;
+  }
+  
+  .event-cards {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .event-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+  }
+  
+  .event-card h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Footer Styling */
+  footer {
+    background-color: #05051E; /* Warna footer sama dengan navbar */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  h1 {
+    color: #98ADF6; 
+  }  
