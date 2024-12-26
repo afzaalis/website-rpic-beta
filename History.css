@@ -1,0 +1,69 @@
+body {
+    background-color: #05051E;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+}
+
+.navbar {
+    padding: 10px 20px;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-link {
+    color: white;
+    text-decoration: none;
+}
+
+.history-container {
+    padding: 20px;
+    color: white;
+  }
+  
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .history-item {
+    background-color: #1f1f2f;
+    padding: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .history-item:hover {
+    background-color: #2a2a3b;
+  }
+  
+  .history-item h4 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .history-item p {
+    margin: 4px 0;
+  }
+  
+  .history-item p span {
+    font-weight: bold;
+  }
+  
