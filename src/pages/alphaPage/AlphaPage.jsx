@@ -1,43 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './alphapage.css'; // Pastikan file CSS sudah diimport jika dibutuhkan
+import './alphapage.css';
 
 const AlphaPage = () => {
   const navigate = useNavigate();
   const [selectedPCs, setSelectedPCs] = useState([]);
-  const [pcDisplay, setPcDisplay] = useState('--');
 
+  // Fungsi untuk menangani pemilihan PC
   const handleClick = (pcNumber) => {
-    const pcType = "Alpha"; // Set PC type
-    const price = 15000; // Set price for Alpha
-    const pcObject = { number: pcNumber, type: pcType, price: price };
+    const pcType = "Alpha";
+    const price = 15000;
 
-    let updatedSelectedPCs = [...selectedPCs];
-    const pcIndex = updatedSelectedPCs.findIndex(pc => pc.number === pcNumber);
-
-    // If PC is already selected, unselect it
-    if (pcIndex !== -1) {
-      updatedSelectedPCs = updatedSelectedPCs.filter(pc => pc.number !== pcNumber);
+    // Periksa apakah PC sudah dipilih
+    if (selectedPCs.some(pc => pc.number === pcNumber)) {
+      setSelectedPCs(prev => prev.filter(pc => pc.number !== pcNumber));
+    } else if (selectedPCs.length < 3) {
+      setSelectedPCs(prev => [...prev, { number: pcNumber, type: pcType, price: price }]);
+    } else {
+      alert("Maksimal 3 PC dapat dipilih.");
     }
-    // If not selected and less than 3 PCs are selected, select it
-    else if (updatedSelectedPCs.length < 3) {
-      updatedSelectedPCs.push(pcObject);
-    }
-
-    setSelectedPCs(updatedSelectedPCs);
-    setPcDisplay(updatedSelectedPCs.length > 0 ? updatedSelectedPCs.map(pc => pc.number).join(", ") : "--");
-
-    // Update the color of the grid item based on selection
-    const gridItem = document.getElementById(pcNumber);
-    gridItem.style.backgroundColor = updatedSelectedPCs.find(pc => pc.number === pcNumber) ? "purple" : "white";
   };
 
+  // Fungsi untuk menangani konfirmasi pilihan
   const handleConfirm = () => {
-    if (selectedPCs.length > 0) {
-      localStorage.setItem("selectedPCs", JSON.stringify(selectedPCs));
-      navigate("/orderPage"); // Navigate to order page
-    } else {
+    if (selectedPCs.length === 0) {
       alert("Pilih minimal 1 PC sebelum konfirmasi.");
+    } else {
+      localStorage.setItem("selectedPCs", JSON.stringify(selectedPCs));
+      navigate("/orderPage", { state: { selectedPCs } });
     }
   };
 
@@ -63,38 +53,46 @@ const AlphaPage = () => {
             <div className="color-note">
               <div className="note-item">
                 <div className="color-box purple"></div>
-                <span>dipilih</span>
+                <span>Dipilih</span>
               </div>
               <div className="note-item">
                 <div className="color-box black"></div>
-                <span>tidak tersedia</span>
+                <span>Tidak Tersedia</span>
               </div>
               <div className="note-item">
                 <div className="color-box white"></div>
-                <span>tersedia</span>
+                <span>Tersedia</span>
               </div>
             </div>
 
             <div className="grid-container">
-              {/* Create grid items dynamically */}
-              {['A1', 'A2', 'A3', 'A4', 'A5', 'A6'].map((pcNumber) => (
-                <div
-                  key={pcNumber}
-                  id={pcNumber}
-                  className="grid-item"
-                  onClick={() => handleClick(pcNumber)}
-                >
-                  {pcNumber}
-                </div>
-              ))}
+              {/* Grid PC Items */}
+              {[...Array(16).keys()].map(i => {
+                const pcNumber = `Alpha-${i + 1}`;
+                const isSelected = selectedPCs.some(pc => pc.number === pcNumber);
+
+                return (
+                  <div
+                    key={pcNumber}
+                    id={pcNumber}
+                    className={`grid-item ${isSelected ? 'selected' : ''}`}
+                    onClick={() => handleClick(pcNumber)}
+                  >
+                    {pcNumber}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <div className="info-panel">
             <h2>NOMOR PC</h2>
-            <p>PC belum dipilih</p>
             <p>MAX : 3 PC UNTUK SEMUA JENIS PC</p>
-            <div className="pc-display">{pcDisplay}</div>
+            <div className="pc-display">
+              {selectedPCs.length > 0
+                ? selectedPCs.map(pc => pc.number).join(", ")
+                : "PC belum dipilih"}
+            </div>
             <button className="confirm-btn" onClick={handleConfirm}>KONFIRMASI</button>
           </div>
         </div>

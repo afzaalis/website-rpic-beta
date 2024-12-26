@@ -8,40 +8,45 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Menambahkan state loading
+  const [loading, setLoading] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!email || !password) {
-      setError('Please fill in all fields.');
+      setError("Please fill in all fields.");
     } else if (password.length < 8) {
-      setError('Password must be at least 8 characters.');
+      setError("Password must be at least 8 characters.");
     } else {
-      setError('');
+      setError("");
       setLoading(true);
-  
+
       try {
         // Kirim request login ke backend
-        const response = await axios.post('http://localhost:3000/api/auth/login', {
+        const response = await axios.post("http://localhost:3000/api/auth/login", {
           email: email,
           password: password,
         });
-  
-        // Jika login berhasil, simpan token di localStorage
+
+        // Jika login berhasil, simpan token, user_id, dan data pengguna di localStorage
+        const { token, user } = response.data; 
         console.log('Login successful:', response.data);
-        localStorage.setItem('token', response.data.token); // Menyimpan token
-        navigate('/homereservasi'); // Arahkan ke halaman setelah login
-  
+        
+        localStorage.setItem('token', token); // Menyimpan token
+        localStorage.setItem('userId', user.id); // Menyimpan user_id di localStorage
+        localStorage.setItem('user', JSON.stringify(user))// Simpan data pengguna dalam bentuk string JSON
+
+        navigate('/homereservasi');
         setLoading(false);
       } catch (error) {
-        console.error('Error during login:', error);
+        console.error("Error during login:", error);
         setLoading(false);
-        setError('Login failed. Please try again.');
+        setError("Login failed. Please try again.");
       }
     }
   };
-
+  
+  
   return (
     <div className="login-outsideContainer">
       <div className="login-container">

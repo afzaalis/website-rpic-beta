@@ -7,8 +7,9 @@ const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Menghapus token dari localStorage
+    //hapus
     localStorage.removeItem('token');
+    console.log('user berhasil keluar dari aplikasi');
     navigate('/login');
   };
 
@@ -25,7 +26,7 @@ const HomeReservasi = () => {
       {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-container">
-          <img src="../../favicon.ico" alt="Logo" className="navbar-logo" />
+          <img src="../../favicon.ico" alt="Logo" className="navbar-logo" style={{marginRight:"20px"}}/>
           <ul className="navbar-menu">
             <li className="navbar-item">
               <Link to="/profile" className="navbar-link">Profile</Link>

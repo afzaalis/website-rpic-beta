@@ -95,6 +95,7 @@ body {
 }
 
 .pengantar, .intro, .content, .promotions, .events, .testimonials, .partners, .footer-container {
+    animation: fadeIn 1s ease-in-out forwards;
     margin: 40px auto;
     padding: 20px;
     max-width: 80%;
@@ -102,6 +103,7 @@ body {
 }
 
 .pengantar h1, .intro h1, .content h1, .promotions h1, .events h1, .testimonials h1, .partners h1 {
+    animation: fadeIn 1s ease-in-out forwards;
     font-size: 36px;
     background: linear-gradient(90deg, #4066EF 0%, #98ADF6 100%);
     -webkit-background-clip: text;
@@ -162,7 +164,7 @@ body {
 }
 
 .promotion-card {
-    background: #333;
+    border: 1px solid #640EF1;
     border-radius: 8px;
     padding: 20px;
     width: 300px;
@@ -180,6 +182,7 @@ body {
 }
 
 .event-cards {
+
     display: flex;
     gap: 20px;
     justify-content: center;
@@ -187,7 +190,7 @@ body {
 }
 
 .event-card {
-    background: #333;
+    border: 1px solid #640EF1 ;
     border-radius: 8px;
     padding: 20px;
     width: 300px;
@@ -269,3 +272,75 @@ body {
 .about li {
     padding: 5px 0;
 }
+
+
+/* Infinite Scroll Styling */
+.infinite-scroll .tag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .loop-slider {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    width: 100%;
+  }
+  
+  .loop-slider .inner {
+    display: flex;
+    animation: slide var(--duration) linear infinite;
+    animation-direction: var(--direction);
+  }
+  
+  .loop-slider .tag {
+    font-size: 18px;
+    color: white;
+    background-color: #333;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin: 5px;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  
+  .loop-slider .tag span {
+    color: #640EF1;
+    font-weight: bold;
+  }
+  
+  @keyframes slide {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .map-container {
+    margin: 20px auto;
+    max-width: 80%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.location h1 {
+    font-size: 36px;
+    background: linear-gradient(90deg, #4066EF 0%, #98ADF6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 20px;
+}
+
+.event-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px; 
+    margin-bottom: 10px; 
+  }

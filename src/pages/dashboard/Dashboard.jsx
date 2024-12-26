@@ -21,7 +21,7 @@ const Dashboard = () => {
             src="../../favicon.ico"
             alt="Logo"
             className="navbar-logo"
-            style={{ width: "40px", height: "40px" }}
+            style={{ width: "40px", height: "40px" , marginRight:"25px"}}
           />
           <ul className="navbar-menu">
             <li className="navbar-item">
@@ -56,10 +56,14 @@ const Dashboard = () => {
         </div>
       </nav>
 
+  {/*ini kebawah konten */}
+
       {/* Pengantar */}
       <div className="pengantar">
         <h1>What's RPIC?</h1>
         <p>Platform reservasi untuk internet cafe, MOD gaming center di Bandung.</p>
+
+        
       </div>
 
       {/* Intro */}
@@ -107,42 +111,68 @@ const Dashboard = () => {
         <h1>Upcoming Events</h1>
         <div className="event-cards">
           <div className="event-card">
+            <img src="/img/showcase.jpg" alt="MOD Esports Tournament" className="event-image" />
             <h2>MOD Esports Tournament</h2>
             <p>Join our Dota 2 tournament and win exciting prizes!</p>
-            <p>
-              <strong>Date:</strong> November 5, 2024
-            </p>
+            <p><strong>Date:</strong> November 5, 2024</p>
           </div>
           <div className="event-card">
-            <h2>Community Game Night</h2>
+            <img src="/img/christmas.jpeg" alt="Community Game Night" className="event-image" />
+            <h2>Christmas Gaming Night</h2>
             <p>Gather with fellow gamers and enjoy a night of fun!</p>
-            <p>
-              <strong>Date:</strong> November 12, 2024
-            </p>
+            <p><strong>Date:</strong> December 25, 2024</p>
           </div>
         </div>
       </section>
 
+
+
       {/* Testimonials */}
-      <section className="testimonials" id="testimonials">
+      <section className="testimonials infinite-scroll" id="testimonials">
         <h1>What Our Customers Say</h1>
-        <div className="testimonial-container">
-          <div className="testimonial">
-            <p>
-              "Tempat yang sangat nyaman dan PC-nya mantap! Pengalaman gaming
-              yang luar biasa."
-            </p>
-            <p>- Arif, Gamer</p>
+        <div className="tag-list">
+          <div className="loop-slider" style={{ "--duration": "15951ms", "--direction": "normal" }}>
+            <div className="inner">
+              <div className="tag"><span>#</span> wow</div>
+              <div className="tag"><span>#</span> Keren</div>
+              <div className="tag"><span>#</span> atyan nih ownernya</div>
+              <div className="tag"><span>#</span> modern idea</div>
+              <div className="tag"><span>#</span> Next level</div>
+              <div className="tag"><span>#</span> booking mudah!</div>
+              <div className="tag"><span>#</span> wkwk jadi ga telat</div>
+            </div>
           </div>
-          <div className="testimonial">
-            <p>
-              "Service terbaik di Bandung! Tempatnya cocok untuk e-sports
-              tournaments."
-            </p>
-            <p>- Budi, Organizer</p>
+          <div className="loop-slider" style={{ "--duration": "19260ms", "--direction": "reverse" }}>
+            <div className="inner">
+              <div className="tag"><span>#</span> Next level</div>
+              <div className="tag"><span>#</span> jadi mudah!</div>
+              <div className="tag"><span>#</span> gampang!</div>
+              <div className="tag"><span>#</span> modern idea</div>
+              <div className="tag"><span>#</span> bjir keren</div>
+              <div className="tag"><span>#</span> 1 jam berapa</div>
+              <div className="tag"><span>#</span> ga usah ke warnet cuy</div>
+              <div className="tag"><span>#</span> nice platform</div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* location */}
+      <section className="location">
+      <h1>We Are Here</h1>
+      <div className="map-container">
+        <iframe
+          title="MOD Gaming Center Location"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.848388062227!2d107.6088424!3d-6.9087255999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e79ec791a411%3A0x473aa012882dfe65!2sMod%20Arcade%20Arena!5e0!3m2!1sen!2sid!4v1735130664918!5m2!1sen!2sid"  referrerpolicy="no-referrer-when-downgrade"
+          width="100%"
+          height="450"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </section>
 
       {/* Partners */}
       <section className="partners">

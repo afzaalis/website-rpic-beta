@@ -1,19 +1,44 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./profile.css";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false);
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [voucherDetail, setVoucherDetail] = useState("");
   const [userData, setUserData] = useState({
-    name: "Atyan AJG",
-    username: "@atyanajg",
-    email: "atyanajg@gmail.com",
+    name: "",
+    email: "",
     phone: "-",
   });
 
-  // Handle open/close voucher modal
+  // States for managing edited values in form
+  const [editedName, setEditedName] = useState("");
+  const [editedEmail, setEditedEmail] = useState("");
+  const [editedPhone, setEditedPhone] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!token) {
+      navigate("/login"); 
+    } else if (storedUser) {
+      setUserData({
+        name: storedUser.name,
+        email: storedUser.email,
+        phone: storedUser.phone || "-",
+      });
+      
+      // Initialize edit form with existing user data
+      setEditedName(storedUser.name);
+      setEditedEmail(storedUser.email);
+      setEditedPhone(storedUser.phone || "-");
+    }
+  }, [navigate]);
+
   const handleVoucherClick = (voucherName) => {
     setVoucherDetail(`Detail for ${voucherName}`);
     setIsVoucherModalOpen(true);
@@ -32,23 +57,52 @@ const Profile = () => {
   };
 
   const handleSaveProfileChanges = () => {
-    setUserData({
-      name: document.getElementById("editName").value,
-      username: document.getElementById("editUsername").value,
-      email: document.getElementById("editEmail").value,
-      phone: document.getElementById("editPhone").value,
-    });
+    const token = localStorage.getItem("token");
 
-    setIsEditProfileModalOpen(false);
+    // Updated profile data
+    const updatedData = {
+      name: editedName,
+      email: editedEmail,
+      phone: editedPhone,
+    };
+
+    fetch("http://localhost:3000/api/auth/updateProfile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message) {
+          console.log("Profile updated successfully");
+
+          // Update state to reflect changes
+          setUserData(updatedData);
+
+          // Update localStorage to keep data consistent
+          localStorage.setItem("user", JSON.stringify(updatedData));
+
+          setIsEditProfileModalOpen(false);
+        } else {
+          console.error("Error:", data.error);
+          alert("Failed to update profile. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Failed to update profile. Please try again.");
+      });
   };
 
   return (
     <div>
-      {/* Navbar */}
       <div className="navbar">
         <div className="navbar-container">
-          <img src="../../favicon.ico" alt="Logo" className="navbar-logo" />
-          <ul className="navbar-menu">
+        <img src="../../favicon.ico" alt="Logo" className="navbar-logo" style={{marginRight:"20px"}}/>
+        <ul className="navbar-menu">
             <li className="navbar-item">
               <Link to="/profile" className="navbar-link">
                 Profile
@@ -72,7 +126,6 @@ const Profile = () => {
         <h1>Profile</h1>
       </div>
 
-      {/* Profile Page Content */}
       <div className="profile-container">
         <img src="/img/profileBg.png" alt="" className="profile-image" />
         <div className="profile-header">
@@ -101,7 +154,6 @@ const Profile = () => {
           </button>
         </div>
 
-        {/* Voucher Section */}
         <div className="voucher-section">
           <h3>Voucher Saya</h3>
           <div className="voucher-list">
@@ -129,7 +181,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Modal Structure */}
       {isVoucherModalOpen && (
         <div id="voucherModal" className="modal">
           <div className="modal-content">
@@ -142,14 +193,10 @@ const Profile = () => {
         </div>
       )}
 
-      {/* Edit Profile Modal Structure */}
       {isEditProfileModalOpen && (
         <div id="editProfileModal" className={`modal ${isEditProfileModalOpen ? "open" : ""}`}>
           <div className="modal-content">
-            <span
-              className="close-btn"
-              onClick={handleCloseEditProfileModal}
-            >
+            <span className="close-btn" onClick={handleCloseEditProfileModal}>
               &times;
             </span>
             <h2>Edit Profile</h2>
@@ -159,15 +206,8 @@ const Profile = () => {
                 type="text"
                 id="editName"
                 name="name"
-                defaultValue={userData.name}
-              />
-
-              <label htmlFor="editUsername">Username</label>
-              <input
-                type="text"
-                id="editUsername"
-                name="username"
-                defaultValue={userData.username}
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
               />
 
               <label htmlFor="editEmail">Email</label>
@@ -175,7 +215,8 @@ const Profile = () => {
                 type="email"
                 id="editEmail"
                 name="email"
-                defaultValue={userData.email}
+                value={editedEmail}
+                onChange={(e) => setEditedEmail(e.target.value)}
               />
 
               <label htmlFor="editPhone">Phone</label>
@@ -183,7 +224,8 @@ const Profile = () => {
                 type="text"
                 id="editPhone"
                 name="phone"
-                defaultValue={userData.phone}
+                value={editedPhone}
+                onChange={(e) => setEditedPhone(e.target.value)}
               />
 
               <button

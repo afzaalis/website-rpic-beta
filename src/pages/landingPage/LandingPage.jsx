@@ -4,7 +4,7 @@ import "./LandingPage.css";
 
 export const LandingPage = () => {
   const [showWelcome, setShowWelcome] = useState(true);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const welcomeTimeout = setTimeout(() => {
@@ -12,7 +12,7 @@ export const LandingPage = () => {
     }, 2000);
 
     const redirectTimeout = setTimeout(() => {
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     }, 4000);
 
     return () => {
@@ -25,13 +25,19 @@ export const LandingPage = () => {
     <div className="page-enter">
       <div className="intro">
         {showWelcome ? (
-          <h1 className="fade-in" id="welcome-message" style={{color:"white"}}>
-            Welcome To RPIC
-          </h1>
+          <>
+            <img src="/favicon.ico" alt="Icon" className="icon" />
+            <h1 className="fade-in" id="welcome-message">
+              Welcome To RPIC
+            </h1>
+          </>
         ) : (
-          <h1 className="fade-in" id="reserve-message" style={{color:"white"}}>
-            Reserve Your Table Here..
-          </h1>
+          <>
+            <img src="/favicon.ico" alt="Icon" className="icon" />
+            <h1 className="fade-in" id="reserve-message">
+              Reserve Your Table Here..
+            </h1>
+          </>
         )}
       </div>
     </div>

@@ -32,40 +32,38 @@ body {
 }
 
 .history-container {
-    max-width: 800px;
-    margin: 50px auto;
     padding: 20px;
-    background-color: #17141D;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: left;
-}
-
-.history-container h1 {
-    text-align: center;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #2e3033;
-}
-
-th {
-    background-color: #00A8FF; 
     color: white;
-}
-
-tr:nth-child(even) {
-    background-color: #22252D; 
-}
-
-tr:hover {
-    background-color: #444851; 
-}
+  }
+  
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .history-item {
+    background-color: #1f1f2f;
+    padding: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .history-item:hover {
+    background-color: #2a2a3b;
+  }
+  
+  .history-item h4 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .history-item p {
+    margin: 4px 0;
+  }
+  
+  .history-item p span {
+    font-weight: bold;
+  }
+  

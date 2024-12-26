@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import ReceiptModal from "./ReceiptModal";
+import axios from "axios";
+import ReceiptModal from "./ReceiptModal"; 
 import "./order.css";
 
 function OrderPage() {
@@ -7,16 +8,38 @@ function OrderPage() {
     JSON.parse(localStorage.getItem("selectedPCs")) || []
   );
   const [totalPrice, setTotalPrice] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(300); // Timer untuk modal
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
-    const total = selectedPCs.reduce((acc, pc) => {
-      const duration = pc.duration || 1;
-      return acc + pc.price * duration;
-    }, 0);
-    setTotalPrice(total);
+    const calculateTotalPrice = () => {
+      const total = selectedPCs.reduce((acc, pc) => {
+        const duration = pc.duration || 1;
+        return acc + pc.price * duration;
+      }, 0);
+      setTotalPrice(total);
+    };
+    calculateTotalPrice();
   }, [selectedPCs]);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      const timer = setInterval(() => {
+        setRemainingTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            handlePaymentTimeout();
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      setTimerId(timer);
+      return () => clearInterval(timer);
+    }
+  }, [isModalOpen]);
 
   const handleDurationChange = (index, duration) => {
     const updatedPCs = [...selectedPCs];
@@ -26,105 +49,102 @@ function OrderPage() {
 
   const handleTimeChange = (index, time) => {
     const updatedPCs = [...selectedPCs];
-    updatedPCs[index].startTime = time; // Simpan waktu mulai
+    updatedPCs[index].startTime = time;
     setSelectedPCs(updatedPCs);
   };
 
-  const handleCheckboxChange = (index) => {
-    const updatedPCs = [...selectedPCs];
-    updatedPCs[index].isChecked = !updatedPCs[index].isChecked;
-    setSelectedPCs(updatedPCs);
-  };
-
-  const handleBuyClick = () => {
-    // Validasi waktu mulai
-    const isValid = selectedPCs.every((pc) => pc.startTime);
+  const handleOrderSubmit = async () => {
+    const isValid = selectedPCs.every((pc) => pc.startTime && pc.duration);
     if (!isValid) {
-      setErrorMessage("Harap atur waktu mulai untuk semua PC yang dipilih.");
+      setErrorMessage("Harap lengkapi waktu mulai dan durasi untuk semua PC.");
       return;
     }
-    setErrorMessage(""); // Reset pesan error jika valid
-    setIsModalOpen(true);
+  
+    const userId = localStorage.getItem("userId");
+    console.log("user id:", userId);
+  
+    if (!userId) {
+      setErrorMessage("Pengguna tidak ditemukan. Harap login terlebih dahulu.");
+      return;
+    }
+  
+    const bookings = selectedPCs.map((pc) => ({
+      pc_id: pc.id,
+      hours: pc.duration,
+      price: pc.price * pc.duration,
+      startTime: pc.startTime,
+    }));
+  
+    try {
+      const response = await axios.post("http://localhost:3000/api/bookings", {
+        userId,
+        selectedPCs: bookings,
+        totalPrice,
+      });
+  
+      if (response.status === 201) {
+        console.log("Order submitted successfully", response.data);
+        setErrorMessage("");
+        // Simpan bookingId ke localStorage
+        localStorage.setItem("bookingId", response.data.bookingId); 
+        setIsModalOpen(true); 
+      } else {
+        setErrorMessage("Gagal mengirim pesanan. Silakan coba lagi.");
+      }
+    } catch (error) {
+      console.error("Error during API call: ", error);
+      setErrorMessage("Terjadi kesalahan. Silakan coba lagi.");
+    }
   };
 
-  const handleCloseModal = () => {
+  const handlePaymentTimeout = () => {
+    alert("Waktu pembayaran telah habis. Pemesanan dibatalkan.");
     setIsModalOpen(false);
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
+    return `${minutes}:${secs}`;
   };
 
   return (
     <div className="order-container">
-      <h1>ORDER</h1>
+      <h1>Halaman Pemesanan</h1>
       <div className="order-content">
         <div className="order-list">
           {selectedPCs.map((pc, index) => (
             <div key={index} className="order-item">
-              <input
-                type="checkbox"
-                checked={pc.isChecked}
-                onChange={() => handleCheckboxChange(index)}
-                className="order-checkbox"
-              />
-              <img
-                src={`../../images/pc${pc.type.toLowerCase()}.png`}
-                alt="PC"
-                className="order-image"
-              />
               <div className="order-details">
-                <h2 className="order-title">
-                  {pc.number} ({pc.type})
-                </h2>
-                <p className="order-price">
-                  Harga per jam: Rp. {pc.price.toLocaleString()}
-                </p>
-                <p>
-                  WAKTU MULAI:
-                  <input
-                    type="time"
-                    className="order-time"
-                    value={pc.startTime || ""}
-                    onChange={(e) => handleTimeChange(index, e.target.value)}
-                  />
-                </p>
-                <p>
-                  DURASI (jam):
-                  <input
-                    type="number"
-                    className="order-duration"
-                    min="1"
-                    value={pc.duration || 1}
-                    onChange={(e) =>
-                      handleDurationChange(index, e.target.value)
-                    }
-                  />
-                </p>
+                <h2>{`${pc.type} - ${pc.number}`}</h2>
+                <p>Harga per jam: Rp. {pc.price.toLocaleString()}</p>
+
+                <label>Waktu Mulai:</label>
+                <input
+                  type="time"
+                  value={pc.startTime || ""}
+                  onChange={(e) => handleTimeChange(index, e.target.value)}
+                />
+
+                <label>Durasi (jam):</label>
+                <input
+                  type="number"
+                  min="2"
+                  value={pc.duration || 1}
+                  onChange={(e) => handleDurationChange(index, e.target.value)}
+                />
               </div>
             </div>
           ))}
         </div>
 
         <div className="order-summary">
-          <h2>RINGKASAN ORDER</h2>
-          <p className="order-total">
-            TOTAL <span>Rp. {totalPrice.toLocaleString()}</span>
-          </p>
-          {errorMessage && (
-            <p className="error-message" style={{ color: "red" }}>
-              {errorMessage}
-            </p>
-          )}
-          <button className="voucher-btn">
-            <div className="left-content">
-              <img
-                src="../../img/voucher.png"
-                alt="Voucher Icon"
-                className="voucher-icon"
-              />
-              <span>Voucher Saya</span>
-            </div>
-            <span className="arrow-icon">➔</span>
-          </button>
-          <button className="buy-btn" onClick={handleBuyClick}>
-            Beli
+          <h2>Ringkasan Pemesanan</h2>
+          <p>Total Harga: Rp. {totalPrice.toLocaleString()}</p>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+          <button onClick={handleOrderSubmit} className="submit-order-btn">
+            Konfirmasi Pesanan
           </button>
         </div>
       </div>
@@ -132,7 +152,8 @@ function OrderPage() {
       {isModalOpen && (
         <ReceiptModal
           totalPrice={totalPrice}
-          onClose={handleCloseModal}
+          remainingTime={remainingTime}
+          onClose={() => setIsModalOpen(false)} 
         />
       )}
     </div>
