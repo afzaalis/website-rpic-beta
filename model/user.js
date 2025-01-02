@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 
+// Konfigurasi database
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -8,6 +9,7 @@ const db = mysql.createConnection({
   database: 'rpic',
 });
 
+// Koneksi ke database
 db.connect(err => {
   if (err) {
     console.error('Error connecting to the database:', err);
@@ -33,6 +35,37 @@ const getUserByEmail = (email, callback) => {
   });
 };
 
+// Get user by ID
+const getUserById = (id, callback) => {
+  const query = 'SELECT id, name, email, phone FROM user WHERE id = ?';
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error('Database query error:', err);
+      return callback(err);
+    }
+    if (results.length === 0) {
+      console.log(`User with ID ${id} not found`);
+      return callback(null, null);
+    }
+    console.log(`User found by ID: ${JSON.stringify(results[0])}`);
+    callback(null, results[0]);
+  });
+};
+
+// Update user by ID
+const updateUserById = (userId, userData, callback) => {
+  const { name, email, phone } = userData;
+  const query = 'UPDATE user SET name = ?, email = ?, phone = ? WHERE id = ?';
+  
+  db.query(query, [name, email, phone, userId], (err, result) => {
+    if (err) {
+      return callback(err, null);
+    }
+    callback(null, { id: userId, name, email, phone });
+  });
+};
+
+
 // Add new user
 const addUser = (user, callback) => {
   const { name, email, password, role } = user;
@@ -46,4 +79,4 @@ const addUser = (user, callback) => {
   });
 };
 
-module.exports = { getUserByEmail, addUser };
+module.exports = { getUserByEmail, addUser, getUserById, updateUserById };

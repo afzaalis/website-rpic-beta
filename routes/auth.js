@@ -1,13 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { addUser, getUserByEmail } = require('../model/user');
+const jwt = require('jsonwebtoken');
+const { addUser, getUserByEmail, getUserById, updateUserById } = require('../model/user');
+require('dotenv').config();
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Middleware untuk otentikasi
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.status(401).json({ message: 'Access Denied' });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: 'Invalid Token' });
+    req.user = user; // Informasi pengguna dari token
+    next();
+  });
+};
 
 // Signup endpoint
 router.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
-
-  console.log('Signup data received:', { name, email, password }); // Log input data
 
   const role = 'customer';
 
@@ -15,10 +30,8 @@ router.post('/signup', (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     if (user) return res.status(400).json({ message: 'Email already taken' });
 
-    // Gunakan bcrypt untuk menghasilkan hash dengan format $2a
     bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) return res.status(500).json({ error: err.message });
-      console.log('Generated hash (format $2a):', hashedPassword);
 
       addUser({ name, email, password: hashedPassword, role }, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -32,31 +45,61 @@ router.post('/signup', (req, res) => {
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  console.log('Login data received:', { email, password }); // Log input data
-
   getUserByEmail(email, (err, user) => {
     if (err) return res.status(500).json({ error: err.message });
-    if (!user) {
-      console.log(`User with email ${email} not found`);
-      return res.status(400).json({ message: 'Invalid email or password' });
-    }
-
-    console.log('User found in database:', user); // Log user data
+    if (!user) return res.status(400).json({ message: 'Invalid email or password' });
 
     bcrypt.compare(password, user.password, (err, isMatch) => {
-      if (err) {
-        console.error('Error during bcrypt.compare:', err);
-        return res.status(500).json({ error: err.message });
-      }
-      if (!isMatch) {
-        console.log('Password mismatch:', { inputPassword: password, storedHash: user.password });
-        return res.status(400).json({ message: 'Invalid email or password' });
-      }
+      if (err) return res.status(500).json({ error: err.message });
+      if (!isMatch) return res.status(400).json({ message: 'Invalid email or password' });
 
-      console.log('Login successful for user:', email);
+      // Generate JWT Token
+      const token = jwt.sign(
+        { id: user.id, name: user.name, email: user.email, role: user.role },
+        JWT_SECRET,  // Secret Key untuk JWT
+        { expiresIn: '1h' }  // Token kedaluwarsa dalam 1 jam
+      );
+
+      // Return the token and user data
       res.status(200).json({
         message: 'Login successful',
+        token,
         user: { id: user.id, name: user.name, email: user.email, role: user.role }
+      });
+    });
+  });
+});
+
+//update profile endpoint
+router.put('/updateProfile', authenticateToken, (req, res) => {
+  const { name, email, phone } = req.body;
+  const userId = req.user.id;
+
+  console.log("Request received for user:", userId, "with data:", { name, email, phone }); // Log request
+
+  if (!name || !email || !phone) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  getUserById(userId, (err, user) => {
+    if (err) {
+      console.error("Database error:", err); // Log database error
+      return res.status(500).json({ error: 'Database error: ' + err.message });
+    }
+    if (!user) {
+      console.log("User not found:", userId); // Log if user not found
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    updateUserById(userId, { name, email, phone }, (err, updatedUser) => {
+      if (err) {
+        console.error("Update error:", err); // Log update error
+        return res.status(500).json({ error: 'Failed to update profile: ' + err.message });
+      }
+      console.log("Profile updated:", updatedUser); // Log success
+      res.status(200).json({
+        message: 'Profile updated successfully',
+        user: updatedUser,
       });
     });
   });
