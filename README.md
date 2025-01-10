@@ -8,7 +8,7 @@ Aplikasi ini dibangun menggunakan:
 - **Database**: MySQL  
 
 ## Proses Bisnis  
-[Dokumen Proses Bisnis](https://docs.google.com/document/d/1YLE1TthRlbKCURHzKLMr836mLhiX6AVS1KaDypxz8B8/edit?tab=t.0)  
+[Dokumen Proses Bisnis]([https://docs.google.com/document/d/1YLE1TthRlbKCURHzKLMr836mLhiX6AVS1KaDypxz8B8/edit?tab=t.0](https://docs.google.com/document/d/12kGt6SXvoQujvKS38HSNyFSKP7dG8gVaJ2c-z41v68s/edit?tab=t.0))  
 
 ## Team Project  
 - **Afzaal Isnaufal**  
