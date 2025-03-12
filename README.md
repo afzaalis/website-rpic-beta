@@ -17,6 +17,9 @@ Aplikasi ini dibangun menggunakan:
 - **Salman Hamala**  
 - **Syawal Najat**  
 
+##Link Docs test plan
+https://docs.google.com/document/d/13sEvx6hmzxRpdSSsJy627OqHRHPDDqV5Ef83xPYcj00/edit?usp=sharing
+
 ## Features  
 
 | **Feature**                     | **Description**             | **Implemented by**      |  
